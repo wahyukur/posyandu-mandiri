@@ -1,5 +1,4 @@
-import { Font, AppLoading } from "expo";
-import Expo from "expo";
+import { Font, AppLoading, Permissions, Notifications } from "expo";
 import React from 'react';
 import { View, Image, StatusBar, StyleSheet, ScrollView, AsyncStorage, FlatList, RefreshControl, Dimensions, TouchableHighlight, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { Container, Header, Content, Button, Icon, Left, Body, Right, Title, Text, Card, CardItem, List, ListItem, Thumbnail, Separator, Spinner } from 'native-base';
@@ -23,7 +22,7 @@ export default class Home extends React.Component {
 
     async componentWillMount () { 
         try { 
-            await Font.loadAsync({
+            await Expo.Font.loadAsync({
                 Arial: require("native-base/Fonts/arial.ttf"),
                 Roboto: require("native-base/Fonts/Roboto.ttf"),
                 Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
@@ -45,14 +44,14 @@ export default class Home extends React.Component {
 
             this.makeRemoteRequest();
             // this.registerForPushNotificationsAsync();
-            const { status } = await Expo.Permissions.getAsync(Expo.Permissions.NOTIFICATIONS);
+            const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
             let finalStatus = status;
 
             console.log('status', status);
             console.log('finalStatus', finalStatus);
 
             if (status !== 'granted') {
-                const { status } = await Expo.Permissions.askAsync(Expo.Permissions.NOTIFICATIONS);
+                const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
                 finalStatus = status;
                 console.log('status no1', finalStatus, status);
             }
@@ -64,7 +63,7 @@ export default class Home extends React.Component {
             }
             console.log('status3', finalStatus);
 
-            let token = await Expo.Notifications.getExpoPushTokenAsync();
+            let token = await Notifications.getExpoPushTokenAsync();
             console.log('hello');
             console.log('tokennya',token);
         } catch (error) {
