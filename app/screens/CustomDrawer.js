@@ -15,44 +15,14 @@ export default class CustomDrawer extends React.Component {
             nama_anak: this.props.navigation.state.params.p_nama_anak,
             umur: this.props.navigation.state.params.p_umur,
             tgl_lhr: this.props.navigation.state.params.p_tgl_lhr,
-            jenis_kel: this.props.navigation.state.params.p_jenis_kel,
-            dataImun:{},
-            j_Imun:{},
-            isReady: false
+            jenis_kel: this.props.navigation.state.params.p_jenis_kel
         };
     }
 
-    async componentWillMount () { 
-        try { 
-            await Expo.Font.loadAsync({
-                Arial: require("native-base/Fonts/arial.ttf"),
-                Roboto: require("native-base/Fonts/Roboto.ttf"),
-                Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
-                Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
-            });
-            this.setState({ isReady: true });
-            // console.log(this.state.nama_anak);
-        } catch (error) { 
-            console.log(error);
-        }
-    }
-
-    // DetailTbg=(id_anak)=>{
-    //     this.props.navigation.navigate('DetailTimbang', { 
-    //         p_id_anak : id_anak
-    //     });
-    // }
-
     render() {
-        if (!this.state.isReady) {
-            return (
-                <View style={styles.activity}>
-                    <ActivityIndicator size="large" color="#0000ff" />
-                </View>
-            );
-        }
 
         const { navigate } = this.props.navigation;
+        
         if (this.state.jenis_kel === '0') {
             var src = require('../images/russell-small.png')
         } else {

@@ -1,9 +1,7 @@
-import { AppLoading } from "expo";
 import React from 'react';
-import { StyleSheet, Image, View, StatusBar, ListView, AsyncStorage, ScrollView, FlatList, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { Container, Content, Header, Left, Right, Body, Icon, Text, Button, List, ListItem, Thumbnail, Title, Card, CardItem, Separator } from 'native-base';
+import { StyleSheet, View, StatusBar, FlatList, Dimensions, ActivityIndicator } from 'react-native';
+import { Container, Content, Header, Left, Right, Body, Icon, Text, Button, Thumbnail, Card, CardItem } from 'native-base';
 import { FontAwesome } from '@expo/vector-icons';
-import { Col, Row, Grid } from 'react-native-easy-grid';
 
 const { height } = Dimensions.get('window');
 
@@ -17,54 +15,33 @@ export default class Imunisasi extends React.Component {
             umur: this.props.navigation.state.params.p_umur,
             tgl_lhr: this.props.navigation.state.params.p_tgl_lhr,
             jenis_kel: this.props.navigation.state.params.p_jenis_kel,
-            dataImun:{},
             j_Imun:{},
             isReady: false
         };
     }
 
-    async componentWillMount () { 
-        // console.log(this.state.id_anak);
-        try { 
-            await fetch('https://posyandumandiri.000webhostapp.com/api/getImunisasi/'+this.state.id_anak, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then((response) => response.json())
-            .then((res) => {
-                // console.log(res);
-                if (res) {
-                    this.setState({
-                        j_Imun: res
-                    });
-                    // console.log(this.state.j_Imun);
-                } else {
-                    alert("Error Load Data");
-                }
-            })
-            .catch((error) => {
-                console.error(error);
+    componentDidMount () { 
+        fetch('https://posyandumandiri.000webhostapp.com/api/getImunisasi/'+this.state.id_anak, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+        })
+        .then((response) => response.json())
+        .then((res) => {
+            // console.log(res);
+            this.setState({
+                j_Imun: res,
+                isReady: true
             });
-            await Expo.Font.loadAsync({
-                Arial: require("native-base/Fonts/arial.ttf"),
-                Roboto: require("native-base/Fonts/Roboto.ttf"),
-                Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
-                Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
-            });
-            this.setState({ isReady: true });
-        } catch (error) { 
-            console.log(error);
-        }
+            // console.log(this.state.j_Imun);
+        })
+        .catch((error) => {
+            // console.error(error);
+            alert("Error Load Data");
+        });
     }
-
-    // DetailTbg=(id_anak)=>{
-    //     this.props.navigation.navigate('DetailTimbang', { 
-    //         p_id_anak : id_anak
-    //     });
-    // }
 
     renderGroup = (group) => {
         if(group.imun) {

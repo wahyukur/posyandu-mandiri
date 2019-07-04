@@ -1,6 +1,6 @@
 import { AppLoading, Font } from "expo";
 import React from 'react';
-import { StyleSheet, Image, View, StatusBar, ListView, AsyncStorage } from 'react-native';
+import { StyleSheet, Image, View, StatusBar, ListView, AsyncStorage, ActivityIndicator } from 'react-native';
 import { Container, Content, Header, Left, Right, Body, Icon, Text, Button, List, ListItem, Thumbnail, Title } from 'native-base';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
@@ -12,20 +12,6 @@ export default class Kegiatan extends React.PureComponent {
             isReady: false,
             items: {}
         };
-    }
-
-    async componentWillMount () { 
-        try { 
-            await Expo.Font.loadAsync({
-                Arial: require("native-base/Fonts/arial.ttf"),
-                Roboto: require("native-base/Fonts/Roboto.ttf"),
-                Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
-                Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
-            });
-            this.setState({ isReady: true });
-        } catch (error) { 
-            console.log(error); 
-        }
     }
 
     componentDidMount(){
@@ -69,7 +55,9 @@ export default class Kegiatan extends React.PureComponent {
     render() {
         if (!this.state.isReady) {
             return (
-                <AppLoading />
+                <View style={styles.activity}>
+                    <ActivityIndicator size="large" color="#0000ff" />
+                </View>
             );
         }
         
@@ -88,19 +76,6 @@ export default class Kegiatan extends React.PureComponent {
                     renderItem={this.renderItem.bind(this)}
                     renderEmptyDate={this.renderEmptyDate.bind(this)}
                     rowHasChanged={this.rowHasChanged.bind(this)}
-                    // markingType={'multi-period'}
-                    // markedDates={{
-                    //    '2017-05-08': {textColor: '#666'},
-                    //    '2017-05-09': {textColor: '#666'},
-                    //    '2017-05-14': {startingDay: true, endingDay: true, color: 'blue'},
-                    //    '2017-05-21': {startingDay: true, color: 'blue'},
-                    //    '2017-05-22': {endingDay: true, color: 'gray'},
-                    //    '2017-05-24': {startingDay: true, color: 'gray'},
-                    //    '2017-05-25': {color: 'gray'},
-                    //    '2017-05-26': {endingDay: true, color: 'gray'}}}
-                    // monthFormat={'yyyy'}
-                    // theme={{calendarBackground: 'red', agendaKnobColor: 'green'}}
-                    //renderDay={(day, item) => (<Text>{day ? day.day: 'item'}</Text>)}
                 />
             </Container>
         );
@@ -164,5 +139,9 @@ const styles = StyleSheet.create({
         padding: 10,
         marginRight: 10,
         marginTop: 17
+    },
+    activity: {
+        flex: 1,
+        justifyContent: 'center'
     }
 });

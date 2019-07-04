@@ -1,6 +1,6 @@
 import { AppLoading } from "expo";
 import React from 'react';
-import { StyleSheet, Image, View, StatusBar, TextInput, TouchableOpacity, AsyncStorage } from 'react-native';
+import { StyleSheet, Image, View, StatusBar, TextInput, TouchableOpacity, AsyncStorage, ActivityIndicator } from 'react-native';
 import { Container, Content, Header, Left, Right, Body, Text, Button } from 'native-base';
 import PasswordInputText from 'react-native-hide-show-password-input';
 import { FontAwesome } from '@expo/vector-icons';
@@ -17,35 +17,23 @@ export default class Profile extends React.Component {
             newPassword:'',
             confirmPassword:'',
             auth: {},
-            text: 'Useless Placeholder',
             hidePassword: true,
             hidePassword1: true,
             hidePassword2: true
         };
     }
 
-    async componentWillMount () { 
+    async componentDidMount () { 
         try { 
-            await AsyncStorage.getItem('auth', (error, result) => {
-                if (result) {
-                    let resultParsed = JSON.parse(result)
-                    this.setState({
-                        auth: resultParsed
-                    });
-                    // console.log(this.state.auth);
-                } else {
-                    alert("Error Load Data");
-                }
+            var data = await AsyncStorage.getItem('auth');
+            data = JSON.parse(data);
+            this.setState({
+                auth: data,
+                isReady: true
             });
-            await Expo.Font.loadAsync({
-                Arial: require("native-base/Fonts/arial.ttf"),
-                Roboto: require("native-base/Fonts/Roboto.ttf"),
-                Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
-                Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
-            });
-            this.setState({ isReady: true });
         } catch (error) { 
-            console.log(error); 
+            // console.log(error);
+            alert("Error Load Data");
         }
     }
 
@@ -85,14 +73,17 @@ export default class Profile extends React.Component {
             }
         })
         .catch((error) => {
-            console.error(error);
+            // console.error(error);
+            alert(res.message);
         });
     }
 
     render() {
         if (!this.state.isReady) {
             return (
-                <AppLoading />
+                <View style={styles.activity}>
+                    <ActivityIndicator size="large" color="#0000ff" />
+                </View>
             );
         }
 
@@ -115,7 +106,6 @@ export default class Profile extends React.Component {
                                     </View>
                                 </MenuTrigger>
                                 <MenuOptions customStyles={optionsStyles}>
-                                    <MenuOption text='About Us' />
                                     <MenuOption onSelect={() => onSignOut(navigate)} text='Logout' />
                                 </MenuOptions>
                             </Menu>
@@ -124,7 +114,7 @@ export default class Profile extends React.Component {
                     <Content style={{backgroundColor: '#E4F1F6'}}>
                         <View style={{flexDirection:'row', margin:10}}>
                             <View>
-                                <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar6.png'}}/>
+                                <Image style={styles.avatar} source={{uri: "https://bootdey.com/img/Content/avatar/avatar5.png"}}/>
                             </View>
                             <View style={{justifyContent:'center', marginLeft: 8}}>
                                 <Text style={styles.name}>{this.state.auth.nama}</Text>
@@ -248,6 +238,10 @@ const styles = StyleSheet.create({
     },
     name:{
         fontSize:20
+    },
+    activity: {
+        flex: 1,
+        justifyContent: 'center'
     },
     email:{
         fontSize:15,

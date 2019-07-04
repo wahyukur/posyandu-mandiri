@@ -58,8 +58,7 @@ export default class SignIn extends React.Component {
         return (
             <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
                 <View style={{height: StatusBar.currentHeight, backgroundColor: 'blue'}}></View>
-                <Image style={{width:100, height: 100}} source={require('../images/logo.png')}/>
-                <Text style={styles.logoText}>Posyandu Mandiri</Text>
+                <Image style={{width:100, height: 100, marginBottom: 30, borderRadius: 60, borderWidth: 3, borderColor:"#fff",}} source={require('../images/icon.png')}/>
                 
                 <TextInput style={styles.inputBox} 
                     underlineColorAndroid = 'rgba(0,0,0,0)'
@@ -95,19 +94,19 @@ export default class SignIn extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#455a64',
+        backgroundColor: '#2980b9',
         alignItems: 'center',
         justifyContent: 'center',
     },
     logoText: {
         fontSize: 18,
-        color: 'rgba(255, 255, 255, 0.7)',
+        color: '#000',
         marginVertical: 15
     },
     inputBox: {
         width: 300,
         height: 55,
-        backgroundColor: 'rgba(255, 255,255,0.2)',
+        backgroundColor: '#34495e',
         borderRadius: 25,
         paddingHorizontal: 16,
         fontSize: 20,

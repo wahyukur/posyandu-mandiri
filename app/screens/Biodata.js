@@ -12,24 +12,9 @@ export default class Biodata extends React.Component {
             auth: {},
             bioIbu: {},
             bioAnak: {},
-            isReady: false,
             isLoading: false,
             isError: false
         };
-    }
-
-    async componentWillMount () { 
-        try {
-            await Expo.Font.loadAsync({
-                Arial: require("native-base/Fonts/arial.ttf"),
-                Roboto: require("native-base/Fonts/Roboto.ttf"),
-                Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
-                Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
-            });
-            this.setState({ isReady: true });
-        } catch (error) { 
-            console.log(error); 
-        }
     }
 
     async componentDidMount(){
@@ -97,14 +82,6 @@ export default class Biodata extends React.Component {
     }
 
     render() {
-        if (!this.state.isReady) {
-            return (
-                <View style={styles.activity}>
-                    <ActivityIndicator size="large" color="#0000ff" />
-                </View>
-            );
-        }
-
         if (this.state.isLoading) {
             return (
                 <View style={styles.activity}>

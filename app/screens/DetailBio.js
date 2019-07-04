@@ -20,33 +20,11 @@ export default class DetailBio extends React.Component {
             jenis_persalinan : this.props.navigation.state.params.p_jenis_persalinan,
             tempat_persalinan: this.props.navigation.state.params.p_tempat_persalinan,
             dokter           : this.props.navigation.state.params.p_dokter,
-            NIK_anak         : this.props.navigation.state.params.p_NIK_anak,
-            isReady          : false,
+            NIK_anak         : this.props.navigation.state.params.p_NIK_anak
         };
     }
 
-    async componentWillMount () { 
-        try { 
-            await Expo.Font.loadAsync({
-                Arial: require("native-base/Fonts/arial.ttf"),
-                Roboto: require("native-base/Fonts/Roboto.ttf"),
-                Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
-                Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
-            });
-            this.setState({ 
-                isReady: true 
-            });
-        } catch (error) { 
-            console.log(error); 
-        }
-    }
-
     render() {
-        if (!this.state.isReady) {
-            return (
-                <ActivityIndicator size="large" />
-            );
-        }
 
         return (
             <Container>

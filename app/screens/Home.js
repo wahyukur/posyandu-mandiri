@@ -1,4 +1,4 @@
-import { Font, AppLoading, Permissions, Notifications } from "expo";
+import { Font, AppLoading } from "expo";
 import React from 'react';
 import { View, Image, StatusBar, StyleSheet, ScrollView, AsyncStorage, FlatList, RefreshControl, Dimensions, TouchableHighlight, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { Container, Header, Content, Button, Icon, Left, Body, Right, Title, Text, Card, CardItem, List, ListItem, Thumbnail, Separator, Spinner } from 'native-base';
@@ -13,25 +13,11 @@ export default class Home extends React.Component {
         super(props);
         this.state = {
             data: [],
-            isReady: true,
+            auth: '',
             isLoading: false,
             refreshing: false,
             isError: false
         };
-    }
-
-    async componentWillMount () { 
-        try { 
-            await Expo.Font.loadAsync({
-                Arial: require("native-base/Fonts/arial.ttf"),
-                Roboto: require("native-base/Fonts/Roboto.ttf"),
-                Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
-                Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
-            });
-            this.setState({ isReady: true });
-        } catch (error) { 
-            console.log(error);
-        }
     }
 
     async componentDidMount(){
@@ -41,31 +27,8 @@ export default class Home extends React.Component {
             this.setState({
                 auth: data
             });
-
+            console.log(this.state.auth);
             this.makeRemoteRequest();
-            // this.registerForPushNotificationsAsync();
-            const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-            let finalStatus = status;
-
-            console.log('status', status);
-            console.log('finalStatus', finalStatus);
-
-            if (status !== 'granted') {
-                const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-                finalStatus = status;
-                console.log('status no1', finalStatus, status);
-            }
-            console.log('status1', finalStatus);
-
-            if (finalStatus !== 'granted') {
-                console.log('status no2', finalStatus, status);
-                return;
-            }
-            console.log('status3', finalStatus);
-
-            let token = await Notifications.getExpoPushTokenAsync();
-            console.log('hello');
-            console.log('tokennya',token);
         } catch (error) {
             console.log(error);
         }
@@ -152,14 +115,6 @@ export default class Home extends React.Component {
     }
 
     render() {
-        if (!this.state.isReady) {
-            return (
-                <View style={styles.container}>
-                    <ActivityIndicator size="large" color="#0000ff" />
-                </View>
-            );
-        }
-
         const { navigate } = this.props.navigation;
 
         return (

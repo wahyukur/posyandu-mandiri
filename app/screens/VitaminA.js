@@ -1,6 +1,5 @@
-import { AppLoading } from "expo";
 import React from 'react';
-import { StyleSheet, Image, View, StatusBar, ListView, AsyncStorage, ScrollView, FlatList } from 'react-native';
+import { StyleSheet, Image, View, StatusBar, ListView, AsyncStorage, ScrollView, FlatList, ActivityIndicator } from 'react-native';
 import { Container, Content, Header, Left, Right, Body, Icon, Text, Button, List, ListItem, Thumbnail, Title, Card, CardItem, Separator } from 'native-base';
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -15,43 +14,39 @@ export default class VitaminA extends React.Component {
             tgl_lhr: this.props.navigation.state.params.p_tgl_lhr,
             jenis_kel: this.props.navigation.state.params.p_jenis_kel,
             dataVit: {},
-            isReady: true
+            isReady: false
         };
     }
 
     componentDidMount(){
-        try {
-            fetch('https://posyandumandiri.000webhostapp.com/api/getVitA/'+this.state.id_anak, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then((response) => response.json())
-            .then((res) => {
-                // console.log(res);
-                if (res) {
-                    this.setState({
-                        dataVit: res
-                    });
-                    // console.log(this.state.dataVit);
-                } else {
-                    alert("Error Load Data");
-                }
-            })
-            .catch((error) => {
-                console.error(error);
+        fetch('https://posyandumandiri.000webhostapp.com/api/getVitA/'+this.state.id_anak, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+        })
+        .then((response) => response.json())
+        .then((res) => {
+            // console.log(res);
+            this.setState({
+                dataVit: res,
+                isReady: true
             });
-        } catch (error) {
-            console.log(error);
-        }
+            // console.log(this.state.dataVit);
+        })
+        .catch((error) => {
+            // console.error(error);
+            alert("Error Load Data");
+        });
     }
 
     render() {
         if (!this.state.isReady) {
             return (
-                <AppLoading />
+                <View style={styles.container}>
+                    <ActivityIndicator size="large" color="#0000ff" />
+                </View>
             );
         }
 
@@ -129,6 +124,10 @@ export default class VitaminA extends React.Component {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center'
+    },
     note:{
         color: '#1A3E4C',
         fontSize: 13,

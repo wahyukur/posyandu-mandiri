@@ -1,7 +1,7 @@
 import { AsyncStorage } from "react-native";
 import { SignedIn } from "./router";
 
-export const onSignIn = (email, password, navigate) => {
+export const onSignIn = (email, password, token, navigate) => {
     fetch('https://posyandumandiri.000webhostapp.com/api/login', {
         method: 'POST',
         headers: {
@@ -11,6 +11,7 @@ export const onSignIn = (email, password, navigate) => {
         body: JSON.stringify({
             email: email,
             password: password,
+            token: token
         })
     })
     .then((response) => response.json())
@@ -24,7 +25,8 @@ export const onSignIn = (email, password, navigate) => {
         }
     })
     .catch((error) => {
-        console.error(error);
+        // console.error(error);
+        alert('Network Error');
     });
 }
 

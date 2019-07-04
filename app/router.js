@@ -10,7 +10,6 @@ import Profile from "./screens/Profile";
 import Biodata from "./screens/Biodata";
 import DetailBio from "./screens/DetailBio";
 import Timbang from "./screens/Timbang";
-import DetailTimbang from "./screens/DetailTimbang";
 import Imunisasi from "./screens/Imunisasi";
 import VitaminA from "./screens/VitaminA";
 import Kegiatan from "./screens/Kegiatan";
@@ -49,8 +48,7 @@ export const StackBio = createStackNavigator({
 });
 
 export const StackTimbang1 = createStackNavigator({
-    Timbang: {screen: Timbang},
-    DetailTimbang: {screen: DetailTimbang},
+    Timbang: {screen: Timbang}
 }, {
     initialRouteName : 'Timbang',
     headerMode: 'none'
@@ -69,27 +67,6 @@ export const StackVitA1 = createStackNavigator({
     initialRouteName : 'VitaminA',
     headerMode: 'none'
 });
-
-const CustomDrawerrr = (props) => {
-    // console.log(props)
-    return (
-    <SafeAreaView style={{flex:1, backgroundColor:'#E4F1F6'}}>
-        <View style={{height: StatusBar.currentHeight, backgroundColor: '#347B98'}}></View>
-        <View style={{backgroundColor: "#DCDCDC"}}>
-            <View style={{padding:30, alignItems: 'center'}}>
-                <Image style={{width: 130,height: 130,borderRadius: 63,borderWidth: 4,borderColor: "white",marginBottom:10}} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar6.png'}}/>
-
-                <Text style={{fontSize:22,color:"#000000",fontWeight:'600'}}>John Doe </Text>
-                <Text style={{fontSize:16,color:"#778899",fontWeight:'600'}}>jhonnydoe@mail.com </Text>
-                <Text style={{fontSize:16,color:"#778899",fontWeight:'600'}}>Florida </Text>
-            </View>
-        </View>
-
-        <ScrollView>
-            <DrawerItems {...props} />
-        </ScrollView>
-    </SafeAreaView>
-)}
 
 export const Drawer = createDrawerNavigator({
     StackTimbang: {screen: (props) => <Timbang {...props} />},
